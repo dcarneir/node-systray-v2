@@ -63,6 +63,9 @@ function getTrayBinPath(debug = false, copyDir = false) {
         if (!fs__namespace.existsSync(copyDistPath)) {
             fs__namespace.mkdirSync(copyDir, { recursive: true });
             fs__namespace.copyFileSync(binPath, copyDistPath);
+            if (['linux', 'darwin'].includes(process.platform)) {
+                fs__namespace.chmodSync(copyDistPath, 0o755);
+            }
         }
         return copyDistPath;
     }
