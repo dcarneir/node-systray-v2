@@ -37,6 +37,10 @@ export function getTrayBinPath(
     if (!fs.existsSync(copyDistPath)) {
       fs.mkdirSync(copyDir, { recursive: true });
       fs.copyFileSync(binPath, copyDistPath);
+
+      if(['linux', 'darwin'].includes(process.platform)) {
+        fs.chmodSync(copyDistPath, 0o755);
+      }
     }
 
     return copyDistPath;
